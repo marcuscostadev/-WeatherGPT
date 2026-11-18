@@ -7,7 +7,8 @@ class GPTClient:
 
     def generate_response(self, question, check):
         print("chave openai", self.api_key)
-        return "Error: OpenAI API key is not set."
+        if not self.api_key:
+            return "Error: OpenAI API key is not set."
 
     prompt = f"""
 Você é uma assistente climática. Responda em português, de forma curta, clara e útil.
@@ -35,18 +36,19 @@ resposta = requests.post(self.url, headers=headers, json=payload, timeout=20)
 if resposta.status_code != 200:
     return f"Erro OpenAI {resposta.status_code}: {resposta.text}"
 
-dados = resposta.json()
-    return dados.get("output_text", f"Resposta sem output_text: {dados}")
+    dados = resposta.json()
 
-    def _resposta_local(self, pergunta, consulta):
-        temp = consulta.temperatura
-        if temp <= 15:
-            dica = "Leve casaco, porque a temperatura está baixa."
-        elif temp <= 24:
-            dica = "O clima está agradável, mas vale levar uma blusa leve."
-        else:
-            dica = "Está quente, então use roupas leves e se hidrate bem."
-        return(
-            f"Em {consulta.cidade}, agora está {temp:.1f}°C, com sensação de "
-            f"{consulta.sensacao_termica:.1f}°C e clima {consulta.descricao}. {dica}"
-            )
+return dados.get("output_text", f"Resposta sem output_text: {dados}")
+
+def _resposta_local(self, pergunta, consulta):
+    temp = consulta.temperatura
+    if temp <= 15:
+        dica = "Leve casaco, porque a temperatura está baixa."
+    elif temp <= 24:
+        dica = "O clima está agradável, mas vale levar uma blusa leve."
+    else:
+        dica = "Está quente, então use roupas leves e se hidrate bem."
+    return(
+        f"Em {consulta.cidade}, agora está {temp:.1f}°C, com sensação de "
+        f"{consulta.sensacao_termica:.1f}°C e clima {consulta.descricao}. {dica}"
+        )
