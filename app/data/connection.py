@@ -3,7 +3,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 base = declarative_base()
 
-class Database:
+class DatabaseManager:
     def __init__(self, database_url="sqlite:///clima_app.db"):
         self.engine = create_engine(database_url, echo=False)
         self.session = sessionmaker(bind=self.engine)
